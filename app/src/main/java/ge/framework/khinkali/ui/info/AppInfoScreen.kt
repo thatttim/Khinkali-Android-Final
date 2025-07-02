@@ -37,7 +37,7 @@ fun AppInfoScreen() {
             )
             
             Text(
-                text = "ვერსია 1.0.0",
+                text = "ვერსია 1.0.1",
                 style = MaterialTheme.typography.bodyLarge
             )
             
