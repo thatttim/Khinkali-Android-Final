@@ -5,11 +5,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +28,7 @@ fun RecipeDetailScreen(
     val uiState by viewModel.uiState.collectAsState()
     val layoutDirection = LocalLayoutDirection.current
     val scrollState = rememberScrollState()
+    var showMenu by remember { mutableStateOf(false) }
 
     LaunchedEffect(recipeId) {
         viewModel.loadRecipeDetails()
@@ -40,6 +41,40 @@ fun RecipeDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    // Options Menu
+                    IconButton(onClick = { showMenu = true }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("გაზიარება") },
+                            leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
+                            onClick = {
+                                // TODO: Implement share functionality
+                                showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("ფავორიტებში დამატება") },
+                            leadingIcon = { Icon(Icons.Default.Favorite, contentDescription = null) },
+                            onClick = {
+                                // TODO: Implement add to favorites functionality
+                                showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("ბეჭდვა") },
+                            onClick = {
+                                // TODO: Implement print functionality
+                                showMenu = false
+                            }
+                        )
                     }
                 }
             )
