@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,10 +19,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ge.framework.khinkali.ui.home.HomeScreen
 import ge.framework.khinkali.ui.info.AppInfoScreen
+import ge.framework.khinkali.ui.notes.NotesScreen
 import ge.framework.khinkali.ui.recipe.RecipeDetailScreen
 
 sealed class Screen(val route: String, val icon: @Composable () -> Unit, val label: String) {
     object Home : Screen("home", { Icon(Icons.Default.Home, contentDescription = "Home") }, "მთავარი")
+    object Notes : Screen("notes", { Icon(Icons.Default.List, contentDescription = "Notes") }, "მინიშნებები")
     object Info : Screen("info", { Icon(Icons.Default.Info, contentDescription = "Info") }, "ინფო")
 }
 
@@ -29,7 +32,7 @@ sealed class Screen(val route: String, val icon: @Composable () -> Unit, val lab
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
-    val items = listOf(Screen.Home, Screen.Info)
+    val items = listOf(Screen.Home, Screen.Notes, Screen.Info)
     
     Scaffold(
         bottomBar = {
@@ -62,6 +65,9 @@ fun MainNavigation() {
         ) {
             composable(Screen.Home.route) {
                 HomeScreen(navController = navController)
+            }
+            composable(Screen.Notes.route) {
+                NotesScreen()
             }
             composable(Screen.Info.route) {
                 AppInfoScreen()

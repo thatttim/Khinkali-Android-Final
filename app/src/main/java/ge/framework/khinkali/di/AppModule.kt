@@ -8,7 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ge.framework.khinkali.data.api.KhinkaliApi
+import ge.framework.khinkali.data.local.NotesDataStore
 import ge.framework.khinkali.data.repository.KhinkaliRepository
+import ge.framework.khinkali.data.repository.NotesRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -31,5 +33,19 @@ object AppModule {
     fun provideKhinkaliRepository(api: KhinkaliApi): KhinkaliRepository {
         Log.d(TAG, "Creating KhinkaliRepository instance")
         return KhinkaliRepository(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotesDataStore(@ApplicationContext context: Context): NotesDataStore {
+        Log.d(TAG, "Creating NotesDataStore instance")
+        return NotesDataStore(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotesRepository(notesDataStore: NotesDataStore): NotesRepository {
+        Log.d(TAG, "Creating NotesRepository instance")
+        return NotesRepository(notesDataStore)
     }
 } 
